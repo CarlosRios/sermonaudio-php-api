@@ -1,0 +1,21 @@
+#sermons-wrapper{
+	background: $slgray;
+	@include rem( padding-top, 4 );
+	@include rem( padding-bottom, 4 );
+
+	.row{
+		@include rem( padding-top, 2 );
+		@include rem( padding-bottom, 2 );
+	}
+}
+
+.white-box{
+	@include rem( padding, 3 );
+	background: $white;
+	@include border-radius( $border-radius-normal );
+	@include box-shadow( 0 3px 4px rgba( $black, 0.1 ) );
+}
+
+.clearfix{
+	clear: both;
+}

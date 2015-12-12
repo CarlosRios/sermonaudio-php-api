@@ -1,0 +1,27 @@
+.form-control{
+	padding: .5em;
+	background: $white;
+
+	&[type="text"]{
+
+	}
+	&[type="select"]{
+		height: 33px !important;
+	}
+}
+.form-group{
+	display: block;
+	margin-bottom: 20px;
+	textarea{
+		width: 100%;
+		max-width: 100%;
+	}
+}
+.form-block{
+	display:block;
+}
+label.form-block{
+	margin-bottom: 7px;
+	font-size: 14px;
+	font-weight: 400;
+}

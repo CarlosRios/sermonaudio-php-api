@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="saApp">
+<head>
+	<meta charset="UTF-8">
+	<title>Sermon Audio API Demo</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+	<script src="public/js/plugins/mediaelement-and-player.min.js"></script>
+	<script src="public/js/app.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="public/css/mediaelementplayer.css" />
+	<link rel="stylesheet" href="public/css/app.css">
+</head>
+<body ng-controller="SermonController">
+
+	<div class="jumbotron">
+
+		<div class="container">
+
+			<h3>Sermons from SermonAudio.com</h3>
+
+			<p>The following sermons are pulled from SermonAudio using the SermonAudio Json Api</p>
+
+		</div>
+
+	</div>
+
+	<div id="main-area">
+
+		<div class="container">
+
+			<div class="audio-player" ng-show="hasAudio">
+
+				<audio ng-src="{{ audioSrc | trustUrl }}" audioplayer controls ></audio>
+
+			</div>
+
+			<section id="search-bar" style="padding: 0px 0px 50px;">
+				
+				<form ng-submit="processForm()" style="float:left;">
+
+					<label for="speaker">Speaker 
+
+						<select name="speaker" id="speaker" class="form-control" ng-model="formData.speaker" ng-change="processForm()">
+
+							<option ng-repeat="speaker in list" value="{{ speaker }}">{{ speaker }}</option>
+
+						</select>
+
+					</label>
+
+					<button type="submit" class="btn btn-primary">Get Sermons</button>
+
+				</form>
+
+				<div style="clear:both"></div>
+
+			</section>
+
+		</div><!-- end container -->
+
+		<section id="sermons-wrapper" ng-show="hasSermons">
+
+			<div class="container">
+
+				<h3>Viewing sermons for {{ currentSpeaker }}</h3>
+
+				<div class="row" ng-repeat="sermonrows in sermons">
+
+					<div class="sermon-audio-speaker col-md-3" ng-repeat="sermon in sermonrows">
+						
+						<div class="white-box">
+
+							<div class="speaker-thumbnail">
+								<img ng-src="{{ sermon.speakerThumbURL }}" title="{{ sermon.title }}">
+							</div>
+
+							<h3>
+								<a href="http://www.sermonaudio.com/sermoninfo.asp?SID=" target="_blank" title="{{ sermon.title }}">{{ sermon.title }}</a>
+							</h3>
+
+							<span class="sermon-date">{{ sermon.date }}</span><br>
+
+							<span class="speaker-title">{{ sermon.speaker }}</span><br>
+
+							<span class="speaker-eventtype">{{ sermon.eventtype }}</span><br>
+
+							<button ng-click="changePlayerAudio(sermon.mp3URL)" class="btn btn-primary">Play</button>
+
+							<a href="{{ sermon.mp3URL }}" class="btn btn-default">Download MP3</a>
+
+						</div><!-- end white-box -->
+
+					</div>
+
+				</div>
+
+				<div class="clearfix"></div>
+
+			</div><!-- end container -->
+
+		</section>
+
+	</div><!-- end main-area -->
+
+</body>
+</html>

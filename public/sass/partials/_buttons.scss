@@ -1,0 +1,113 @@
+.btn{
+	@include transition( all 0.12s ease-in-out );
+	background: transparent;
+	text-shadow: none !important;
+	@include rem( line-height, 1.875 );
+	@include rem( font-size, 1.1875 );
+	border-style: solid;
+	border-width: 1px;
+	@include border-radius( 3px );
+
+	&:hover, &:active, &:focus{
+		background: transparent;
+		outline: none !important;
+	}
+}
+
+.btn-primary{
+	border-color: $primary-color;
+	color: $primary-color;
+
+	&:hover{
+		color: $white;
+		border-color: $primary-color;
+		background: $primary-color;
+	}
+	&:focus, &:active{
+		color: $white;
+		border-color: darken( $primary-color, 10% ) !important;
+		background-color: darken( $primary-color, 10% ) !important;
+	}
+}
+
+.btn-primary-alt{
+	border-color: $primary-color;
+	color: $white !important;
+	background-color: $primary-color;
+
+	&:hover{
+		border-color: darken( $primary-color, 10% ) !important;
+		background-color: darken( $primary-color, 10% ) !important;
+	}
+	&:focus, &:active{
+		border-color: darken( $primary-color, 20% ) !important;
+		background-color: darken( $primary-color, 20% ) !important;
+	}
+}
+
+.btn-secondary{
+
+	&:hover{
+
+	}
+	&:focus, &:active{
+		
+	}
+}
+
+.btn-secondary-alt{
+	border-color: $secondary-color;
+	color: $white !important;
+	background-color: $secondary-color;
+
+	&:hover{
+		border-color: darken( $secondary-color, 5% ) !important;
+		background-color: darken( $secondary-color, 5% ) !important;
+	}
+	&:focus, &:active{
+		border-color: darken( $secondary-color, 10% ) !important;
+		background-color: darken( $secondary-color, 10% ) !important;
+	}
+}
+
+.btn-default{
+	border-color: $dgray;
+	color: $dgray;
+
+	&:hover{
+		color: $white;
+		border-color: $dgray;
+		background: $dgray;
+	}
+	&:focus, &:active{
+		color: $white !important;
+		border-color: darken( $dgray, 10% ) !important;
+		background-color: darken( $dgray, 10% ) !important;
+	}
+}
+
+.btn-xs{
+	
+}
+
+.btn-sm{
+
+}
+
+.btn-md{
+	padding-top: 0;
+	padding-bottom: 0;
+	@include rem( line-height, 3.125 );
+	@include rem( padding-left, 1.25 );
+	@include rem( padding-right, 1.25 );
+}
+
+.btn-lg{
+	@include rem( line-height, 2.1875 );
+	@include rem( padding-top, 1.875 );
+	@include rem( padding-bottom, 1.875 );
+}
+
+.btn-right{
+	float: right;
+}
