@@ -23,7 +23,7 @@ class SermonAudioAPI {
 	 * 
 	 * @var string
 	 */
-	private $base_api_url = 'https://www.sermonaudio.com/api/%1$s?apikey=%2$s%3$s';
+	private $base_api_url = 'https://www.sermonaudio.com/api/%1$s?apikey=%2$s&%3$s';
 
 	/**
 	 * Call the construct for safety
@@ -47,46 +47,6 @@ class SermonAudioAPI {
 	}
 
 	/**
-	 * Formats the string spaces into url readable characters
-	 * 
-	 * @param  string $string the string to format
-	 * @return string the formatted string
-	 */
-	public function formatStringSpaces( $string )
-	{
-		$string = str_replace( ' ', '%20', $string );
-		return $string;
-	}
-
-	/**
-	 * Prepares the array variables for the API request
-	 * by converting the array of variables into a string
-	 * 
-	 * @param  array  $variables an array of variables that will be submitted with the request
-	 * @return string The prepared request variables
-	 */
-	public function prepareRequestVariables( $variables = array() )
-	{
-		$vars_string_array = array();
-		$first_key = key( $variables );
-
-		foreach( $variables as $key => $value ) {
-			$format = '%1$s=%2$s';
-
-			// Add an ampersand to the first element in the request variables
-			if( $key == $first_key ) {
-				$format = '&%1$s=%2$s';
-			}
-
-			// Store the keys and values in a string
-			$vars_string_array[] = sprintf( $format, $key, $value );
-		}
-
-		// Return the request variables as a string
-		return implode( '&', $vars_string_array );
-	}
-
-	/**
 	 * Returns the sermons allowed for this API Key
 	 *
 	 * @param  string  $speaker Specific speaker for this API Key
@@ -103,8 +63,8 @@ class SermonAudioAPI {
 			// Sets the speaker name and the category of speaker
 			$vars['category'] = 'speaker';
 
-			// Sets the item and replaces the spaces with url space code
-			$vars['item'] = $this->formatStringSpaces( $speaker );
+			// Sets the item as the speaker name
+			$vars['item'] = $speaker;
 		}
 
 		if( ! empty( $page ) ) {
@@ -115,11 +75,11 @@ class SermonAudioAPI {
 			$vars['pagesize'] = $count;
 		}
 
-		// Implode the variables into an 'ampersand' separated string
-		$vars = $this->prepareRequestVariables( $vars );
+		// Make the request and store the data
+		$data = $this->getData( 'saweb_get_sermons.aspx', $vars  );
 
-		// Return the requested sermons
-		return $this->getData( 'saweb_get_sermons.aspx', $vars  );
+		// Return the data from the request
+		return $data;
 	}
 
 	/**
@@ -136,11 +96,6 @@ class SermonAudioAPI {
 		// Get the sermons from the API
 		$api_sermons = $this->getSermons( $speaker, $page, $count );
 
-		// Stop if no sermons are returned from the API
-		if( $api_sermons == false || empty( $api_sermons ) ) {
-			return;
-		}
-
 		// Convert the array into sermon objects
 		$sermons = array_map( array( $this, 'makeSermon' ), $api_sermons ); 
 
@@ -149,6 +104,7 @@ class SermonAudioAPI {
 			$sermons = array_chunk( $sermons, $chunks );
 		}
 
+		// Return the sermons
 		return $sermons;
 	}
 
@@ -160,7 +116,7 @@ class SermonAudioAPI {
 	 */
 	private function makeSermon( $data )
 	{
-		$sermon = new \SermonAudioAPI\Sermon;
+		$sermon = new Sermon;
 		$sermon->set( $data );
 		return $sermon;
 	}
@@ -191,10 +147,10 @@ class SermonAudioAPI {
 	 * Returns the data from the Sermon Audio API
 	 *
 	 * @param  string  $request_endpoint  The endpoint for the API request
-	 * @param  string  $request_vars      Extra variables to add to the request
+	 * @param  array   $api_request_vars  Extra variables to add to the request
 	 * @return false | array
 	 */
-	private function getData( $request_endpoint, $request_vars = '' )
+	private function getData( $request_endpoint, $api_request_vars = array() )
 	{
 		// Make sure api key is set first
 		if( ! isset( $this->api_key ) || empty( $this->api_key ) ) {
@@ -207,9 +163,17 @@ class SermonAudioAPI {
 			return false;
 		}
 
-		$api_route = sprintf( $this->base_api_url, $request_endpoint, $this->api_key, $request_vars );
-		$contents = file_get_contents( $api_route );
-		return json_decode( $contents );
+		// Setup the variables for the request
+		$api_request_vars = http_build_query( $api_request_vars );
+
+		// Setup the entire request url
+		$api_route_request = sprintf( $this->base_api_url, $request_endpoint, $this->api_key, $api_request_vars );
+
+		// Get the contents and convert them to PHP useable objects
+		$contents = json_decode( file_get_contents( $api_route_request ) );
+
+		// Return the contents of the request
+		return $contents;
 	}
 
 }
