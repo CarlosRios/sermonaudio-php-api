@@ -57,6 +57,21 @@ class SermonAudioAPI {
 	}
 
 	/**
+	 * Escapes strings
+	 *
+	 * @access public
+	 * @since  0.2
+	 * 
+	 * @param  string $data - a string to escape
+	 * @return string
+	 */
+	public function esc_string( $data )
+	{
+		$esc_data = htmlentities( $data, ENT_QUOTES );
+		return $esc_data;
+	}
+
+	/**
 	 * Returns the sermons allowed for this API Key
 	 *
 	 * @access public
@@ -73,29 +88,29 @@ class SermonAudioAPI {
 		// Sets the speaker name and the category as speaker
 		if( isset( $args['speaker'] ) ) {
 			$vars['category'] = 'speaker';
-			$vars['item'] = $args['speaker'];
+			$vars['item'] = $this->esc_string( $args['speaker'] );
 		}
 
 		// Sets the event as the category
 		if( isset( $args['event'] ) ) {
 			$vars['category'] = 'eventtype';
-			$vars['item'] = $args['event'];
+			$vars['item'] = $this->esc_string( $args['event'] );
 		}
 
 		// Sets the series as the category
 		if( isset( $args['series'] ) ) {
 			$vars['category'] = 'series';
-			$vars['item'] = $args['series'];
+			$vars['item'] = $this->esc_string( $args['series'] );
 		}
 
 		// Sets the page number
 		if( isset( $args['page'] ) ) {
-			$vars['page'] = $args['page'];
+			$vars['page'] = $this->esc_string( $args['page'] );
 		}
 
 		// The amount of sermons to get per page
 		if( isset( $args['sermons_per_page'] ) ) {
-			$vars['pagesize'] = $args['sermons_per_page'];
+			$vars['pagesize'] = abs( $args['sermons_per_page'] );
 		}
 
 		// Make the request and store the data
