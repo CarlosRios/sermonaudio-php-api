@@ -4,7 +4,7 @@
  *
  * @author  Carlos Rios
  * @package  SermonAudioAPI
- * @version  0.1
+ * @version  0.2
  */
 
 namespace SermonAudioAPI;
@@ -13,6 +13,9 @@ class SermonAudioAPI {
 
 	/**
 	 * API key provided by Sermon Audio
+	 *
+	 * @access private
+	 * @since  0.1
 	 * 
 	 * @var string
 	 */
@@ -20,6 +23,9 @@ class SermonAudioAPI {
 
 	/**
 	 * Sermon Audio's API URL
+	 *
+	 * @access private
+	 * @since  0.1
 	 * 
 	 * @var string
 	 */
@@ -27,6 +33,9 @@ class SermonAudioAPI {
 
 	/**
 	 * Call the construct for safety
+	 *
+	 * @access public
+	 * @since  0.1
 	 */
 	public function __construct()
 	{
@@ -36,6 +45,9 @@ class SermonAudioAPI {
 	/**
 	 * Sets the api key in the class
 	 *
+	 * @access public
+	 * @since  0.1
+	 * 
 	 * @param  string $key API key provided by Sermon Audio
 	 * @return object
 	 */
@@ -49,6 +61,9 @@ class SermonAudioAPI {
 	/**
 	 * Returns the sermons allowed for this API Key
 	 *
+	 * @access public
+	 * @since  0.1
+	 * 
 	 * @param  string  $speaker Specific speaker for this API Key
 	 * @param  integer $page The page number we're getting the sermons from
 	 * @param  integer $count Number of sermons to request, max allowed is 100
@@ -84,6 +99,9 @@ class SermonAudioAPI {
 
 	/**
 	 * Returns a list of sermons with the Sermon
+	 *
+	 * @access public
+	 * @since  0.1
 	 * 
 	 * @param  string  $speaker name of the speaker
 	 * @param  integer $page    page number to get
@@ -110,6 +128,9 @@ class SermonAudioAPI {
 
 	/**
 	 * Attaches the sermon data to the Sermon class
+	 *
+	 * @access private
+	 * @since  0.1
 	 * 
 	 * @param  array $data - the data for the sermon provided by the API
 	 * @return object SermonAudioAPI\Sermon
@@ -123,6 +144,9 @@ class SermonAudioAPI {
 
 	/**
 	 * Returns a list objects of the speakers for this church
+	 *
+	 * @access public
+	 * @since  0.1
 	 * 
 	 * @return array | false
 	 */
@@ -132,7 +156,23 @@ class SermonAudioAPI {
 	}
 
 	/**
+	 * Returns a list of objects for the events in this church
+	 *
+	 * @access public
+	 * @since  0.2
+	 * 
+	 * @return array | false
+	 */
+	public function getEvents()
+	{
+		return $this->getData( 'saweb_get_eventtypes.aspx' );
+	}
+
+	/**
 	 * Returns the total number of sermons for the speaker
+	 *
+	 * @access public
+	 * @since  0.1
 	 * 
 	 * @param  string $speaker the name of the speaker
 	 * @return int | false
@@ -146,6 +186,9 @@ class SermonAudioAPI {
 	/**
 	 * Returns the data from the Sermon Audio API
 	 *
+	 * @access private
+	 * @since  0.1
+	 * 
 	 * @param  string  $request_endpoint  The endpoint for the API request
 	 * @param  array   $api_request_vars  Extra variables to add to the request
 	 * @return false | array
