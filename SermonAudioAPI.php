@@ -39,7 +39,6 @@ class SermonAudioAPI {
 	 */
 	public function __construct()
 	{
-		include_once( __DIR__ . '/includes/class-sermonaudio-sermon.php' );
 	}
 
 	/**
@@ -102,59 +101,13 @@ class SermonAudioAPI {
 		// Make the request and store the data
 		$data = $this->getData( 'saweb_get_sermons.aspx', $vars  );
 
-		// Return the data from the request
-		return $data;
-	}
-
-	/**
-	 * Returns a list of sermons with the Sermon
-	 *
-	 * @access public
-	 * @since  0.1
-	 * 
-	 * @param  string  $speaker name of the speaker
-	 * @param  integer $page    page number to get
-	 * @param  integer $count   number of sermons to get
-	 * @param  integer $chunks  number o
-	 * @return array | false    Returns an array of sermons
-	 */
-	public function getSermonsWithHelper( $speaker = null, $page = 1, $count = 100, $chunks = false )
-	{
-		$args = array(
-			'speaker'			=> $speaker,
-			'page'				=> $page,
-			'sermons_per_page'	=> $count,
-		);
-
-		// Get the sermons from the API
-		$api_sermons = $this->getSermons( $args );
-
-		// Convert the array into sermon objects
-		$sermons = array_map( array( $this, 'makeSermon' ), $api_sermons ); 
-
-		// Split the sermons into array chunks
-		if( $chunks ) {
-			$sermons = array_chunk( $sermons, $chunks );
+		// Split the data into chunks
+		if( isset( $args['chunks'] ) && !empty( $data ) && $data !== false ) {
+			$data = array_chunk( $data, abs( $args['chunks'] ) );
 		}
 
-		// Return the sermons
-		return $sermons;
-	}
-
-	/**
-	 * Attaches the sermon data to the Sermon class
-	 *
-	 * @access private
-	 * @since  0.1
-	 * 
-	 * @param  array $data - the data for the sermon provided by the API
-	 * @return object SermonAudioAPI\Sermon
-	 */
-	private function makeSermon( $data )
-	{
-		$sermon = new Sermon;
-		$sermon->set( $data );
-		return $sermon;
+		// Return the data from the request
+		return $data;
 	}
 
 	/**

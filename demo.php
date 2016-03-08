@@ -168,6 +168,7 @@ use SermonAudioAPI\SermonAudioAPI;
 				'speaker'			=> $selected_speaker,
 				'page'				=> $current_sermon_page,
 				'sermons_per_page'	=> $sermons_per_page,
+				'chunks'			=> 4,
 			);
 
 			// A list of sermon objects returned from the Sermon Audio API
@@ -176,9 +177,6 @@ use SermonAudioAPI\SermonAudioAPI;
 			// Return if no sermons were found
 			if( empty( $sermons ) || ! is_array( $sermons ) )
 				return;
-
-			// Split the sermons array into chunks of 4
-			$sermons = array_chunk( $sermons, 4 );
 
 			// Run a loop, and display sermon information
 			foreach( (array) $sermons as $sermon_set ) : ?>
