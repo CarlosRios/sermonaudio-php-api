@@ -54,7 +54,6 @@ class SermonAudioAPI {
 	public function setKey( $key )
 	{
 		$this->api_key = $key;
-
 		return $this;
 	}
 
@@ -64,30 +63,40 @@ class SermonAudioAPI {
 	 * @access public
 	 * @since  0.1
 	 * 
-	 * @param  string  $speaker Specific speaker for this API Key
-	 * @param  integer $page The page number we're getting the sermons from
-	 * @param  integer $count Number of sermons to request, max allowed is 100
+	 * @param  array  $args - a list of allowed variables to query for.
 	 * @return array | false
 	 */
-	public function getSermons( $speaker = null, $page = 1, $count = 100 )
+	public function getSermons( $args = array() )
 	{
 		// Stores the request variables that will be added to the API request
 		$vars = array();
 
-		if( ! is_null( $speaker ) && ! empty( $speaker ) ) {
-			// Sets the speaker name and the category of speaker
+		// Sets the speaker name and the category as speaker
+		if( isset( $args['speaker'] ) ) {
 			$vars['category'] = 'speaker';
-
-			// Sets the item as the speaker name
-			$vars['item'] = $speaker;
+			$vars['item'] = $args['speaker'];
 		}
 
-		if( ! empty( $page ) ) {
-			$vars['page'] = $page;
+		// Sets the event as the category
+		if( isset( $args['event'] ) ) {
+			$vars['category'] = 'eventtype';
+			$vars['item'] = $args['event'];
 		}
 
-		if( ! empty( $count ) && is_int( $count ) ) {
-			$vars['pagesize'] = $count;
+		// Sets the series as the category
+		if( isset( $args['series'] ) ) {
+			$vars['category'] = 'series';
+			$vars['item'] = $args['series'];
+		}
+
+		// Sets the page number
+		if( isset( $args['page'] ) ) {
+			$vars['page'] = $args['page'];
+		}
+
+		// The amount of sermons to get per page
+		if( isset( $args['sermons_per_page'] ) ) {
+			$vars['pagesize'] = $args['sermons_per_page'];
 		}
 
 		// Make the request and store the data
@@ -111,8 +120,14 @@ class SermonAudioAPI {
 	 */
 	public function getSermonsWithHelper( $speaker = null, $page = 1, $count = 100, $chunks = false )
 	{
+		$args = array(
+			'speaker'			=> $speaker,
+			'page'				=> $page,
+			'sermons_per_page'	=> $count,
+		);
+
 		// Get the sermons from the API
-		$api_sermons = $this->getSermons( $speaker, $page, $count );
+		$api_sermons = $this->getSermons( $args );
 
 		// Convert the array into sermon objects
 		$sermons = array_map( array( $this, 'makeSermon' ), $api_sermons ); 
@@ -169,6 +184,19 @@ class SermonAudioAPI {
 	}
 
 	/**
+	 * Returns a list of objects for the languages in this church
+	 *
+	 * @access public
+	 * @since  0.2
+	 * 
+	 * @return array | false
+	 */
+	public function getLanguages()
+	{
+		return $this->getData( 'saweb_get_languages.aspx' );
+	}
+
+	/**
 	 * Returns the total number of sermons for the speaker
 	 *
 	 * @access public
@@ -179,8 +207,14 @@ class SermonAudioAPI {
 	 */
 	public function getTotal( $speaker )
 	{
-		$sermons = $this->getSermons( $speaker, 'total' );
-		return abs( $sermons->total );
+		$args = array(
+			'speaker'	=> $speaker,
+			'page'		=> 'total',
+		);
+
+		$sermons = $this->getSermons( $args );
+
+		return !empty( $sermons->total ) ? abs( $sermons->total ) : false;
 	}
 
 	/**

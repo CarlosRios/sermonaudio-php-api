@@ -164,8 +164,14 @@ use SermonAudioAPI\SermonAudioAPI;
 
 			<?php
 
+			$args = array(
+				'speaker'			=> $selected_speaker,
+				'page'				=> $current_sermon_page,
+				'sermons_per_page'	=> $sermons_per_page,
+			);
+
 			// A list of sermon objects returned from the Sermon Audio API
-			$sermons = $sermonAPI->getSermons( $selected_speaker, $current_sermon_page, $sermons_per_page );
+			$sermons = $sermonAPI->getSermons( $args );
 
 			// Return if no sermons were found
 			if( empty( $sermons ) || ! is_array( $sermons ) )

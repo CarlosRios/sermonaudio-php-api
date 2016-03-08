@@ -10,9 +10,14 @@ if( isset( $_GET['type'] ) && $_GET['type'] == 'get-speakers') {
 	$response = $api->getSpeakers();
 
 } elseif ( isset( $_GET['type'] ) && $_GET['type'] == 'get-sermons' ) {
-	
-	$speaker = $_GET[ 'speaker' ];
-	$response = $api->getSermons( $speaker, 1, 12 );
+
+	$args = array(
+		'speaker'			=> $_GET['speaker'],
+		'page'				=> 1,
+		'sermons_per_page'	=> 12,
+	);
+
+	$response = $api->getSermons( $args );
 
 } else {
 
