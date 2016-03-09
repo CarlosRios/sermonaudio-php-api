@@ -32,6 +32,16 @@ class SermonAudioAPI {
 	private $base_api_url = 'https://www.sermonaudio.com/api/%1$s?apikey=%2$s&%3$s';
 
 	/**
+	 * Sermon Audio request route url
+	 *
+	 * @access public
+	 * @since  0.2
+	 * 
+	 * @var string
+	 */
+	public $request_route;
+
+	/**
 	 * Call the construct for safety
 	 *
 	 * @access public
@@ -72,7 +82,7 @@ class SermonAudioAPI {
 	}
 
 	/**
-	 * Returns the sermons allowed for this API Key
+	 * Builds out the sermons api route and stores it in the class
 	 *
 	 * @access public
 	 * @since  0.1
@@ -80,7 +90,7 @@ class SermonAudioAPI {
 	 * @param  array  $args - a list of allowed variables to query for.
 	 * @return array | false
 	 */
-	public function getSermons( $args = array() )
+	public function sermonsApiRoute( $args = array() )
 	{
 		// Stores the request variables that will be added to the API request
 		$vars = array();
@@ -114,15 +124,45 @@ class SermonAudioAPI {
 		}
 
 		// Make the request and store the data
-		$data = $this->getData( 'saweb_get_sermons.aspx', $vars  );
+		$data = $this->buildRequestRoute( 'saweb_get_sermons.aspx', $vars  );
+
+		// Return the data from the request
+		return $data;
+	}
+
+	/**
+	 * Returns the sermons allowed for this API Key
+	 *
+	 * @access public
+	 * @since  0.1
+	 * 
+	 * @param  array  $args - a list of allowed variables to query for.
+	 * @return array | false
+	 */
+	public function getSermons( $args )
+	{
+		$this->sermonsApiRoute( $args );
+		$data = $this->requestData();
 
 		// Split the data into chunks
 		if( isset( $args['chunks'] ) && !empty( $data ) && $data !== false ) {
 			$data = array_chunk( $data, abs( $args['chunks'] ) );
 		}
 
-		// Return the data from the request
 		return $data;
+	}
+
+	/**
+	 * Builds out the speakers api route and stores it in the class
+	 *
+	 * @access public
+	 * @since  0.2
+	 * 
+	 * @return string
+	 */
+	public function speakersApiRoute()
+	{
+		return $this->buildRequestRoute( 'saweb_get_speakers.aspx' );
 	}
 
 	/**
@@ -135,33 +175,65 @@ class SermonAudioAPI {
 	 */
 	public function getSpeakers()
 	{
-		return $this->getData( 'saweb_get_speakers.aspx' );
+		$this->speakersApiRoute();
+		$data = $this->requestData();
+		return $data;
+	}
+
+	/**
+	 * Builds out the events api route and stores it in the class
+	 *
+	 * @access public
+	 * @since  0.2
+	 * 
+	 * @return string
+	 */
+	public function eventsApiRoute()
+	{
+		return $this->buildRequestRoute( 'saweb_get_eventtypes.aspx' );
 	}
 
 	/**
 	 * Returns a list of objects for the events in this church
 	 *
 	 * @access public
-	 * @since  0.2
+	 * @since  0.1
 	 * 
 	 * @return array | false
 	 */
 	public function getEvents()
 	{
-		return $this->getData( 'saweb_get_eventtypes.aspx' );
+		$this->eventsApiRoute();
+		$data = $this->requestData();
+		return $data;
 	}
 
 	/**
-	 * Returns a list of objects for the languages in this church
+	 * Builds out the languages api route and stores it in the class
 	 *
 	 * @access public
 	 * @since  0.2
 	 * 
 	 * @return array | false
 	 */
+	public function languagesApiRoute()
+	{
+		return $this->buildRequestRoute( 'saweb_get_languages.aspx' );
+	}
+
+	/**
+	 * Returns a list of objects for the languages in this church
+	 *
+	 * @access public
+	 * @since  0.1
+	 * 
+	 * @return array | false
+	 */
 	public function getLanguages()
 	{
-		return $this->getData( 'saweb_get_languages.aspx' );
+		$this->languagesApiRoute();
+		$data = $this->requestData();
+		return $data;
 	}
 
 	/**
@@ -186,16 +258,16 @@ class SermonAudioAPI {
 	}
 
 	/**
-	 * Returns the data from the Sermon Audio API
+	 * Builds the request route and stores it in the object
 	 *
 	 * @access private
-	 * @since  0.1
-	 * 
+	 * @since  0.2
+	 *
 	 * @param  string  $request_endpoint  The endpoint for the API request
 	 * @param  array   $api_request_vars  Extra variables to add to the request
-	 * @return false | array
+	 * @return string [description]
 	 */
-	private function getData( $request_endpoint, $api_request_vars = array() )
+	private function buildRequestRoute( $request_endpoint, $api_request_vars = array() )
 	{
 		// Make sure api key is set first
 		if( ! isset( $this->api_key ) || empty( $this->api_key ) ) {
@@ -212,13 +284,28 @@ class SermonAudioAPI {
 		$api_request_vars = http_build_query( $api_request_vars );
 
 		// Setup the entire request url
-		$api_route_request = sprintf( $this->base_api_url, $request_endpoint, $this->api_key, $api_request_vars );
+		return $this->request_route = sprintf( $this->base_api_url, $request_endpoint, $this->api_key, $api_request_vars );
+	}
 
-		// Get the contents and convert them to PHP useable objects
-		$contents = json_decode( file_get_contents( $api_route_request ) );
+	/**
+	 * Handy method that makes the request for data from the Sermon Audio API
+	 *
+	 * @access private
+	 * @since  0.1
+	 * 
+	 * @return false | array
+	 */
+	private function requestData()
+	{
+		if( !empty( $this->request_route ) && is_string( $this->request_route ) ) {
+			// Get the contents and convert them to PHP useable objects
+			$contents = json_decode( file_get_contents( $this->request_route ) );
 
-		// Return the contents of the request
-		return $contents;
+			// Return the contents of the request
+			return $contents;
+		}
+
+		return false;
 	}
 
 }
