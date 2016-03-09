@@ -121,11 +121,8 @@ class SermonAudioAPI {
 			$vars['pagesize'] = abs( $args['sermons_per_page'] );
 		}
 
-		// Make the request and store the data
-		$data = $this->buildRequestRoute( 'saweb_get_sermons.aspx', $vars  );
-
-		// Return the data from the request
-		return $data;
+		// Build the request and return the route
+		return $this->buildRequestRoute( 'saweb_get_sermons.aspx', $vars  );
 	}
 
 	/**
