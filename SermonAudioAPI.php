@@ -143,7 +143,7 @@ class SermonAudioAPI {
 		$data = $this->requestData();
 
 		// Split the data into chunks
-		if( isset( $args['chunks'] ) && !empty( $data ) && $data !== false ) {
+		if( isset( $args['chunks'] ) && !empty( $data ) && is_array( $data ) ) {
 			$data = array_chunk( $data, abs( $args['chunks'] ) );
 		}
 
