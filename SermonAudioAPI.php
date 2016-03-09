@@ -1,13 +1,11 @@
 <?php
 /**
- * SermonAudio API for PHP
+ * SermonAudioAPI connects to the sermonaudio.com json api via PHP
  *
  * @author  Carlos Rios
  * @package  SermonAudioAPI
- * @version  0.2
+ * @version  0.2.1
  */
-
-namespace SermonAudioAPI;
 
 class SermonAudioAPI {
 

@@ -2,7 +2,6 @@
 
 // Include the API
 include_once( 'SermonAudioAPI.php' );
-use SermonAudioAPI\SermonAudioAPI;
 
 ?>
 
