@@ -58,7 +58,7 @@ class SermonAudioAPI {
 	 * @param  string $key API key provided by Sermon Audio
 	 * @return object
 	 */
-	public function setKey( $key )
+	public function setApiKey( $key )
 	{
 		$this->api_key = $key;
 		return $this;

@@ -48,7 +48,7 @@ include_once( 'SermonAudioAPI.php' );
 
 				// Start an instance of the API. Add your key first.
 				$sermonAPI = new SermonAudioAPI;
-				$sermonAPI->setKey( 'EF1D0D28-DBF2-4DFF-AF01-FFC3C7D2BCE0' );
+				$sermonAPI->setApiKey( 'EF1D0D28-DBF2-4DFF-AF01-FFC3C7D2BCE0' );
 
 				// A list of speaker names returned from Sermon Audio
 				$speakers = $sermonAPI->getSpeakers();
