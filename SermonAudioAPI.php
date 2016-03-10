@@ -241,10 +241,12 @@ class SermonAudioAPI {
 	 *
 	 * @access public
 	 * @since  0.2.1
-	 * 
-	 * @return array | false
+	 *
+	 * @param  array $args - arguments accepted in sermonsApiRoute
+	 * @see    sermonsApiRoute
+	 * @return int | false
 	 */
-	public function totalsApiRoute( $args = array() )
+	public function totalSermonsApiRoute( $args = array() )
 	{
 		$args['page'] = 'total';
 		return $this->sermonsApiRoute( $args );
@@ -255,15 +257,15 @@ class SermonAudioAPI {
 	 * for a speaker, year, eventtype, or series
 	 *
 	 * @access public
-	 * @since  0.1
+	 * @since  0.2.1
 	 * 
 	 * @param  array $args - arguments accepted in sermonsApiRoute
 	 * @see    sermonsApiRoute
 	 * @return int | false
 	 */
-	public function getTotal( $args = array() )
+	public function getTotalSermons( $args = array() )
 	{
-		$this->totalsApiRoute( $args );
+		$this->totalSermonsApiRoute( $args );
 		$sermons = $this->requestData();
 		return !empty( $sermons->total ) ? abs( $sermons->total ) : false;
 	}
