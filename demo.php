@@ -102,7 +102,8 @@ include_once( 'SermonAudioAPI.php' );
 			$sermons_per_page = 12;
 
 			// The total number of sermons the speaker has published on SermonAudio
-			$total = $sermonAPI->getTotal( $selected_speaker );
+			$args = array( 'speaker' => $selected_speaker );
+			$total = $sermonAPI->getTotal( $args );
 
 			// The total number of pages to display for the speaker.
 			// Value is rounded up to the ceiling value so we don't have

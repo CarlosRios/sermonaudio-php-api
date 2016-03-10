@@ -121,6 +121,11 @@ class SermonAudioAPI {
 			$vars['pagesize'] = abs( $args['sermons_per_page'] );
 		}
 
+		// Gets the sermons by the year
+		if( isset( $args['year'] ) ) {
+			$vars['year'] = abs( $args['year'] );
+		}
+
 		// Build the request and return the route
 		return $this->buildRequestRoute( 'saweb_get_sermons.aspx', $vars  );
 	}
@@ -232,23 +237,34 @@ class SermonAudioAPI {
 	}
 
 	/**
-	 * Returns the total number of sermons for the speaker
+	 * Builds out the total sermons api route and stores it in the class
+	 *
+	 * @access public
+	 * @since  0.2.1
+	 * 
+	 * @return array | false
+	 */
+	public function totalsApiRoute( $args = array() )
+	{
+		$args['page'] = 'total';
+		return $this->sermonsApiRoute( $args );
+	}
+
+	/**
+	 * Helper function that returns the total amount of sermons
+	 * for a speaker, year, eventtype, or series
 	 *
 	 * @access public
 	 * @since  0.1
 	 * 
-	 * @param  string $speaker the name of the speaker
+	 * @param  array $args - arguments accepted in sermonsApiRoute
+	 * @see    sermonsApiRoute
 	 * @return int | false
 	 */
-	public function getTotal( $speaker )
+	public function getTotal( $args = array() )
 	{
-		$args = array(
-			'speaker'	=> $speaker,
-			'page'		=> 'total',
-		);
-
-		$sermons = $this->getSermons( $args );
-
+		$this->totalsApiRoute( $args );
+		$sermons = $this->requestData();
 		return !empty( $sermons->total ) ? abs( $sermons->total ) : false;
 	}
 
