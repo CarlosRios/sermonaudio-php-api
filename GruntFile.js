@@ -3,10 +3,10 @@ module.exports = function (grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON( 'package.json' ),
 		watch: {
-			/*javascript: {
-				files: ['<%= concat.siteJS.src %>'],
+			javascript: {
+				files: ['public/js/app.js'],
 				tasks: ['concat', 'uglify']
-			},*/
+			},
 			sass: {
 				files: 'public/sass/**/*.scss',
 				tasks: ['compass', 'concat']
@@ -35,17 +35,19 @@ module.exports = function (grunt) {
 			options: {
 				separator: '\n\n'
 			},
-			/*siteJS: {
+			siteJS: {
 				src: [
-					//'bower_components/bootstrap/dist/js/bootstrap.min.js',
-					'public/js/plugins/*.js',
-					'public/js/*.js'
+					'bower_components/jquery/dist/jquery.min.js',
+					'bower_components/angular/angular.min.js',
+					'bower_components/angular-sanitize/angular-sanitize.min.js',
+					'bower_components/videogular/videogular.min.js',
+					'bower_components/videogular-controls/vg-controls.min.js',
+					'public/js/app.js'
 				],
 				dest: 'public/js/app.min.js'
-			},*/
+			},
 			siteCSS: {
 				src: [
-					//'bower_components/bootstrap/dist/css/bootstrap.min.css',
 					'public/css/app.css'
 				],
 				dest: 'public/css/app.css'

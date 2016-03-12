@@ -1,14 +1,25 @@
 (function($) {
 
-	var app = angular.module('saApp', []);
+	"use-strict";
+	
+	var app = angular.module( "saApp", [
+		"ngSanitize", "com.2fdevs.videogular", "com.2fdevs.videogular.plugins.controls"
+	]);
 
-	app.controller('SermonController', ['$scope', '$http', '$sce', function( $scope, $http, $sce ) {
+	app.controller( 'SermonController', ['$scope', '$http', '$sce', function( $scope, $http, $sce ) {
+
+		// Handle videogular
+		$scope.config = {
+			autoPlay: true,
+		};
+		$scope.API = null;
+		$scope.onPlayerReady = function(API) {
+			$scope.API = API;
+		};
 
 		$scope.formData = {};
 
-		$scope.list = {};
-
-		$scope.currentSpeaker = '';
+		$scope.speaker_list = {};
 
 		$scope.hasSermons = false;
 
@@ -16,16 +27,24 @@
 
 		$scope.audioSrc = '';
 
+		$scope.pages = {};
+
+		/**
+		 * Prepopulate the speakers list
+		 */
 		$http({
 			url: 'server.php?' + $.param({ type: 'get-speakers', }),
 			method: 'GET',
 		}).then( function ( response ) {
-
-			$scope.list =  response.data;
-
+			$scope.speaker_list = response.data;
+			$scope.formData['speaker'] = $scope.speaker_list[1];
+			$scope.processForm();
 		});
 
-		$scope.processForm = function() {
+		/**
+		 * Gets the sermons
+		 */
+		$scope.processForm = function( args ) {
 
 			$scope.formData.type = 'get-sermons';
 
@@ -36,13 +55,8 @@
 			}).then( function ( response ) {
 
 				if( response.data ) {
-
 					$scope.hasSermons = true;
-
-					$scope.currentSpeaker = $scope.formData.speaker;
-
-					$scope.sermons = chunk( response.data, 4 );
-
+					$scope.sermons = response.data;
 				}
 
 			});
@@ -51,18 +65,12 @@
 
 		$scope.changePlayerAudio = function( url ) {
 
-			$scope.audioSrc = url;
-			
-			if( $scope.hasAudio == false ) {
-				$scope.hasAudio = true;
-			}
-		
-		};
+			$scope.audioSrc = [
+				{ src: $sce.trustAsResourceUrl( url ), type: "audio/mp3" }
+			];
 
-		function chunk( a, b ) {
-			for (var c = [], d = 0; d < a.length; d += b) c.push(a.slice(d, d + b));
-			return c;
-		}
+			$scope.API.play();
+		};
 
 	}]);
 	

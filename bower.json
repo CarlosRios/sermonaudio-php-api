@@ -6,7 +6,11 @@
   "description": "Dependencies for SermonAudio Api development app",
   "license": "GPL-3.0+",
   "dependencies": {
-    "bootstrap-sass-official": "~3.3.5"
+    "angular": "angularjs#^1.5.0",
+    "angular-sanitize": "^1.5.0",
+    "jquery": "^2.2.1",
+    "videogular-controls": "^1.4.2",
+    "videogular": "^1.4.2"
   },
   "ignore": [
     "**/.*",

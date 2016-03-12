@@ -1,27 +1,25 @@
 .form-control{
-	padding: .5em;
 	background: $white;
+	border: none !important;
+	@include border-radius( $border-radius-normal );
+	font-weight: 400;
+	outline: none;
+	@include box-shadow( none );
+	@include rem( margin-right, 1 );
+
+	&:active, &:focus{
+		@include box-shadow( none );
+	}
 
 	&[type="text"]{
 
 	}
 	&[type="select"]{
-		height: 33px !important;
+		//height: 33px !important;
 	}
 }
-.form-group{
-	display: block;
-	margin-bottom: 20px;
-	textarea{
-		width: 100%;
-		max-width: 100%;
-	}
-}
-.form-block{
-	display:block;
-}
-label.form-block{
-	margin-bottom: 7px;
-	font-size: 14px;
-	font-weight: 400;
+label{
+	margin-bottom: 0;
+	color: $white;
+	@include rem( margin-right, 1 );
 }

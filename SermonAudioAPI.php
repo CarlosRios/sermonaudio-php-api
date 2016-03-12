@@ -65,15 +65,15 @@ class SermonAudioAPI {
 	}
 
 	/**
-	 * Escapes strings
+	 * Sanitizes strings
 	 *
 	 * @access public
 	 * @since  0.2
 	 * 
-	 * @param  string $data - a string to escape
+	 * @param  string $data - a string to sanitize
 	 * @return string
 	 */
-	public function esc_string( $data )
+	public function sanitize_string( $data )
 	{
 		$esc_data = htmlentities( $data, ENT_QUOTES );
 		return $esc_data;
@@ -96,24 +96,24 @@ class SermonAudioAPI {
 		// Sets the speaker name and the category as speaker
 		if( isset( $args['speaker'] ) ) {
 			$vars['category'] = 'speaker';
-			$vars['item'] = $this->esc_string( $args['speaker'] );
+			$vars['item'] = $this->sanitize_string( $args['speaker'] );
 		}
 
 		// Sets the event as the category
 		if( isset( $args['event'] ) ) {
 			$vars['category'] = 'eventtype';
-			$vars['item'] = $this->esc_string( $args['event'] );
+			$vars['item'] = $this->sanitize_string( $args['event'] );
 		}
 
 		// Sets the series as the category
 		if( isset( $args['series'] ) ) {
 			$vars['category'] = 'series';
-			$vars['item'] = $this->esc_string( $args['series'] );
+			$vars['item'] = $this->sanitize_string( $args['series'] );
 		}
 
 		// Sets the page number
 		if( isset( $args['page'] ) ) {
-			$vars['page'] = $this->esc_string( $args['page'] );
+			$vars['page'] = $this->sanitize_string( $args['page'] );
 		}
 
 		// The amount of sermons to get per page

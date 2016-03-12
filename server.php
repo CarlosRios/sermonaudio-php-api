@@ -5,17 +5,32 @@ require_once( 'SermonAudioAPI.php' );
 $api = new SermonAudioAPI;
 $api->setApiKey( 'EF1D0D28-DBF2-4DFF-AF01-FFC3C7D2BCE0' );
 
-if( isset( $_GET['type'] ) && $_GET['type'] == 'get-speakers') {
+if( isset( $_GET['type'] ) && $_GET['type'] == 'get-speakers' ) {
 
 	$response = $api->getSpeakers();
+
+} elseif( isset( $_GET['type'] ) && $_GET['type'] == 'get-series' ) {
+
+	$response = $api->getSeries();
 
 } elseif ( isset( $_GET['type'] ) && $_GET['type'] == 'get-sermons' ) {
 
 	$args = array(
-		'speaker'			=> $_GET['speaker'],
 		'page'				=> 1,
-		'sermons_per_page'	=> 12,
+		'sermons_per_page'	=> 25,
 	);
+
+	if( isset( $_GET['page'] ) ) {
+		$args['page'] = $_GET['page'];
+	}
+
+	if( isset( $_GET['speaker'] ) ) {
+		$args['speaker'] = $_GET['speaker'];
+	}
+
+	if( isset( $_GET['series'] ) ) {
+		$args['series'] = $_GET['series'];
+	}
 
 	$response = $api->getSermons( $args );
 
