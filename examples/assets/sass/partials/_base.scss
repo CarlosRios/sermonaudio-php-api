@@ -1,0 +1,161 @@
+body{
+	font-family: 'Open Sans', sans-serif;
+	background-color: $lgray;
+}
+
+#banner{
+	background-image: image-url( 'reformers.jpg' );
+	background-color: #334454;
+	color: $white;
+	@include background-size( cover );
+	background-position: top center;
+	background-repeat: no-repeat;
+	margin: 0;
+	text-align: center;
+	@include rem( padding-top, 10 );
+	@include rem( padding-bottom, 10 );
+
+	p{
+		@include rem( margin-bottom, 3 );
+	}
+
+	p.description{
+		@include rem( margin-bottom, 2 );
+		@include rem( font-size, 1.5 );
+	}
+}
+
+#sa-logo{
+	@include rem( margin-bottom, 2 );
+	max-width: 150px;
+}
+
+a{
+	color: $primary-color;
+
+	&:hover{ 
+		color: darken( $primary-color, 10% );
+		text-decoration: none;
+	}
+
+	&:active, &:focus{
+		color: $primary-color;
+		text-decoration: none;
+	}
+}
+
+.clearfix{
+	clear: both;
+}
+.italic{
+	font-style: italic;
+}
+
+/**
+ * Sermons area
+ * 
+ */
+#sermons-wrapper{
+	@include rem( padding-bottom, 6 );
+}
+.sermon-audio-list{
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	border: 1px solid $lgray;
+	@include border-radius( $border-radius-normal );
+}
+.sermon-audio-list .sermon-audio-sermon{
+	@include rem( padding-top, 1 );
+	@include rem( padding-bottom, 1 );
+	@include rem( padding-left, 3 );
+	@include rem( padding-right, 3 );
+	@include rem( line-height, 3 );
+	background: $white;
+	border-bottom: 1px solid $lgray;
+
+	&:hover{
+		background: $slgray;
+	}
+
+	.sa-information-buttons{
+		float: right;
+		
+		.sa-play-button{
+			border-right: 1px solid $lgray;
+			@include rem( padding-right, 1 );
+		}
+
+		.sa-button{
+			@include rem( font-size, 2 );
+			@include rem( padding-left, 1 );
+		}
+	}
+
+	.sa-sermon-date, .sa-sermon-event{
+		@include rem( font-size, 1.25 );
+		color: darken( $gray, 15% );
+	}
+
+	.sa-speaker-thumb{
+		@include rem( margin-right, 1 );
+
+		img{
+			max-width: 25px;
+		}
+	}
+}
+
+/** 
+ * Search bar
+ * 
+ */
+#search-bar-wrapper{
+	background: $white;
+}
+#search-bar{
+	@include rem( padding-top, 2 );
+	@include rem( padding-bottom, 2 );
+}
+#sa-speaker-wrapper{
+	float: right;
+}
+
+#audio-player-container {
+	width: 100%;
+	margin: auto;
+	overflow: hidden;
+	position: fixed;
+	top: 0;
+	z-index: 999;
+	border-bottom: 1px solid $lgray;
+
+	div#current-item{
+		float: left;
+		background: $white;
+		width: 20%;
+		height: 50px;
+		line-height: 50px;
+		@include rem( padding-left, 2 );
+		overflow: hidden;
+	}
+	.videogular-container{
+		float: left;
+		width: 80%;
+	}
+}
+
+.videogular-container.audio {
+	height: 50px;
+}
+
+/** 
+ * Footer
+ */
+footer#props{
+	background-color: #3D4046;
+	@include rem( padding-top, 4 );
+	@include rem( padding-bottom, 4 );
+	color: $white;
+	text-align: center;
+}

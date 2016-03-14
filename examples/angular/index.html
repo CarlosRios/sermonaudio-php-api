@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="saApp">
+<head>
+	<meta charset="UTF-8">
+	<title>Sermon Audio API Demo</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../assets/css/mediaelementplayer.css" />
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,400italic' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body ng-controller="SermonController">
+
+	<div id="audio-player-container" ng-show="hasAudio">
+		<div id="current-item">{{ audioTitle }}</div>
+		<videogular vg-player-ready="onPlayerReady($API)" class="videogular-container audio">
+			<vg-media vg-src="audioSrc" vg-type="audio"></vg-media>
+			<vg-controls>
+				<vg-play-pause-button></vg-play-pause-button>
+				<vg-time-display>{{ currentTime | date:'mm:ss':'+0000' }}</vg-time-display>
+				<vg-scrub-bar>
+					<vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+				</vg-scrub-bar>
+				<vg-time-display>{{ timeLeft | date:'mm:ss':'+0000' }}</vg-time-display>
+				<vg-volume>
+					<vg-mute-button></vg-mute-button>
+				</vg-volume>
+			</vg-controls>
+		</videogular>
+	</div><!-- end videogular-container -->
+
+	<div id="banner" class="jumbotron">
+		<div class="container">
+			<div class="col-md-8 col-md-offset-2">
+				<h1>SermonAudio PHP API</h1>
+				<p>Get sermons, series, events, and speakers from <a href="http://www.sermonaudio.com/" target="_blank">sermonaudio.com</a></p>
+				<p><a href="https://github.com/CarlosRios/sermonaudio-php-api" target="_blank" class="btn btn-lg btn-primary">View On Github</a>
+				<a href="http://crios.me/connecting-to-sermonaudio-com-via-php/" target="_blank" class="btn btn-lg btn-primary">Documentation</a></p>
+
+				<div class="clearfix"></div>
+
+				<p class="description">Choose a sermon below, or filter by speaker.</p>
+			</div>
+		</div>
+	</div>
+
+	<div id="main-area">
+		<div id="search-bar-wrapper">
+			<div class="container">
+				<div class="col-md-8 col-md-offset-2">
+					<section id="search-bar">
+						<form ng-submit="processForm()" class="form-inline">
+							<div id="sa-search-wrapper" class="form-group">
+								<input type="text" name="search" ng-model="search" placeholder="Search..." class="form-control">
+							</div>
+
+							<div id="sa-speaker-wrapper" class="form-group">
+								<select name="speaker" id="speaker" class="form-control" ng-model="formData.speaker" ng-change="processForm()">
+									<option value="">Select a speaker</option>
+									<option ng-repeat="speaker in speaker_list" value="{{ speaker }}">{{ speaker }}</option>
+								</select>
+							</div>
+
+							<div class="clearfix"></div>
+
+						</form>
+					</section>
+				</div><!-- end col-md-8 -->
+			</div><!-- end container -->
+		</div><!-- end search-area -->
+
+		<section id="sermons-wrapper">
+
+			<div class="container">
+
+				<div class="col-md-8 col-md-offset-2" ng-show="hasSermons">
+
+					<ul class="sermon-audio-list">
+						<li class="sermon-audio-sermon" ng-repeat="sermon in sermons|filter:search">
+
+							<span class="sa-speaker-thumb">
+								<img ng-src="{{ sermon.speakerThumbURL }}" title="{{ sermon.title }}">
+							</span>
+
+							<span class="sa-sermon-title"><a href="http://www.sermonaudio.com/sermoninfo.asp?SID={{ sermon.sermonid }}" target="_blank" title="{{ sermon.title }}">{{ sermon.title }}</a></span>
+
+							<span class="sa-sermon-date italic">{{ sermon.date }}</span>
+
+							<div class="sa-information-buttons">
+								<a title="Play Sermon" class="sa-button sa-play-button" href="" ng-click="changePlayerAudio(sermon.mp3URL, sermon.title)"><i class="fi-play"></i></a>
+								<a title="Download Sermon" class="sa-button" href="{{ sermon.mp3URL }}"><i class="fi-download"></i></a>
+							</div>
+
+							<div class="clearfix"></div>
+						</li>
+					</ul>
+					<div class="clearfix"></div>
+				</div><!-- end col-md-8 -->
+
+			</div><!-- end container -->
+
+		</section>
+
+	</div><!-- end main-area -->
+
+	<footer id="props">
+		<div class="container">
+			<div class="col-md-8 col-md-offset-2">
+				Built with <a href="https://angularjs.org/" target="_blank">AngularJS</a> and the <a href="https://github.com/CarlosRios/sermonaudio-php-api" target="_blank">PHP API</a> for SermonAudio. Maintained by <a href="http://crios.me/" target="_blank">Carlos Rios</a>.
+			</div>
+		</div>
+	</footer>
+
+	<script src="../assets/js/app.min.js"></script>
+</body>
+</html>

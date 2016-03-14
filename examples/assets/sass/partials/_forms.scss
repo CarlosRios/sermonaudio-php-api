@@ -1,0 +1,25 @@
+.form-control{
+	background: $slgray;
+	border: none !important;
+	@include border-radius( $border-radius-normal );
+	font-weight: 400;
+	outline: none;
+	@include box-shadow( none );
+	@include rem( margin-right, 1 );
+
+	&:active, &:focus{
+		@include box-shadow( none );
+	}
+
+	&[type="text"]{
+
+	}
+	&[type="select"]{
+		//height: 33px !important;
+	}
+}
+label{
+	margin-bottom: 0;
+	color: $white;
+	@include rem( margin-right, 1 );
+}
