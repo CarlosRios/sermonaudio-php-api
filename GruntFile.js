@@ -4,11 +4,11 @@ module.exports = function (grunt) {
 		pkg: grunt.file.readJSON( 'package.json' ),
 		watch: {
 			javascript: {
-				files: ['public/js/app.js'],
+				files: ['examples/assets/js/app.js'],
 				tasks: ['concat', 'uglify']
 			},
 			sass: {
-				files: 'public/sass/**/*.scss',
+				files: 'examples/assets/sass/**/*.scss',
 				tasks: ['compass', 'concat']
 			}
 		},
@@ -16,9 +16,9 @@ module.exports = function (grunt) {
 			dist: {
 				options: {
 					relativeAssets: true,
-					sassDir: 'public/sass',
-					cssDir: 'public/css',
-					imagesDir: 'public/img',
+					sassDir: 'examples/assets/sass',
+					cssDir: 'examples/assets/css',
+					imagesDir: 'examples/assets/img',
 					environment: 'production',
 					outputStyle: 'compressed'
 				}
@@ -27,7 +27,7 @@ module.exports = function (grunt) {
 		uglify: {
 			main: {
 				files: {
-					'public/js/app.min.js': ['public/js/app.min.js']
+					'examples/assets/js/app.min.js': ['examples/assets/js/app.min.js']
 				}
 			}
 		},
@@ -42,15 +42,15 @@ module.exports = function (grunt) {
 					'bower_components/angular-sanitize/angular-sanitize.min.js',
 					'bower_components/videogular/videogular.min.js',
 					'bower_components/videogular-controls/vg-controls.min.js',
-					'public/js/app.js'
+					'examples/assets/js/app.js'
 				],
-				dest: 'public/js/app.min.js'
+				dest: 'examples/assets/js/app.min.js'
 			},
 			siteCSS: {
 				src: [
-					'public/css/app.css'
+					'examples/assets/css/app.css'
 				],
-				dest: 'public/css/app.css'
+				dest: 'examples/assets/css/app.css'
 			}
 		}
 	});
