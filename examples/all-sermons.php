@@ -8,7 +8,7 @@
  */
 
 // Include the api
-include_once( '../../SermonAudioAPI.php' );
+include_once( '../SermonAudioAPI.php' );
 
 // Connect to the api
 $sa_api = new SermonAudioAPI;
