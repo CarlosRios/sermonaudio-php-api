@@ -3,7 +3,7 @@
 require_once( '../../SermonAudioAPI.php' );
 
 $api = new SermonAudioAPI;
-$api->setApiKey( 'EF1D0D28-DBF2-4DFF-AF01-FFC3C7D2BCE0' );
+$api->setApiKey( 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX' );
 
 if( isset( $_GET['type'] ) && $_GET['type'] == 'get-speakers' ) {
 
