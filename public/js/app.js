@@ -9,24 +9,22 @@
 	app.controller( 'SermonController', ['$scope', '$http', '$sce', function( $scope, $http, $sce ) {
 
 		// Handle videogular
+		$scope.API = null;
+
 		$scope.config = {
 			autoPlay: true,
 		};
-		$scope.API = null;
+
 		$scope.onPlayerReady = function(API) {
 			$scope.API = API;
 		};
 
 		$scope.formData = {};
-
 		$scope.speaker_list = {};
-
 		$scope.hasSermons = false;
-
 		$scope.hasAudio = false;
-
 		$scope.audioSrc = '';
-
+		$scope.audioTitle = '';
 		$scope.pages = {};
 
 		/**
@@ -63,21 +61,15 @@
 
 		};
 
-		$scope.changePlayerAudio = function( url ) {
-
+		$scope.changePlayerAudio = function( url, title ) {
+			$scope.API.stop();
 			$scope.audioSrc = [
 				{ src: $sce.trustAsResourceUrl( url ), type: "audio/mp3" }
 			];
-
-			$scope.API.play();
+			$scope.audioTitle = title;
+			$scope.hasAudio = true;
 		};
 
-	}]);
-	
-	app.filter( 'trustUrl', [ '$sce', function($sce) {
-		return function( url ) {
-			return $sce.trustAsResourceUrl( url );
-		}
 	}]);
 
 })(jQuery);

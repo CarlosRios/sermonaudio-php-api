@@ -18,6 +18,11 @@ body{
 	p{
 		@include rem( margin-bottom, 3 );
 	}
+
+	p.description{
+		@include rem( margin-bottom, 2 );
+		@include rem( font-size, 1.5 );
+	}
 }
 
 #sa-logo{
@@ -51,7 +56,6 @@ a{
  * 
  */
 #sermons-wrapper{
-	@include rem( padding-top, 6 );
 	@include rem( padding-bottom, 6 );
 }
 .sermon-audio-list{
@@ -107,7 +111,7 @@ a{
  * 
  */
 #search-bar-wrapper{
-	background: #4B647C;
+	background: $white;
 }
 #search-bar{
 	@include rem( padding-top, 2 );
@@ -117,20 +121,32 @@ a{
 	float: right;
 }
 
+#audio-player-container {
+	width: 100%;
+	margin: auto;
+	overflow: hidden;
+	position: fixed;
+	top: 0;
+	z-index: 999;
+	border-bottom: 1px solid $lgray;
 
-#audio-player{
-	@include rem( padding-top, 4 );
-	@include rem( padding-bottom, 4 );
-	background: #3D4046;
-}
-.videogular-container {
-    width: 100%;
-    margin: auto;
-    overflow: hidden;
+	div#current-item{
+		float: left;
+		background: $white;
+		width: 20%;
+		height: 50px;
+		line-height: 50px;
+		@include rem( padding-left, 2 );
+		overflow: hidden;
+	}
+	.videogular-container{
+		float: left;
+		width: 80%;
+	}
 }
 
 .videogular-container.audio {
-    height: 50px;
+	height: 50px;
 }
 
 /** 
