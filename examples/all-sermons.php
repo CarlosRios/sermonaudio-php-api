@@ -15,7 +15,7 @@ include_once( '../SermonAudioAPI.php' );
  * Gets the sermons from SermonAudio
  * and displays them as JSON.
  *
- * @since  1.0
+ * @since  1.1
  * @return void
  */
 function sermonaudio_sermons_as_json()
