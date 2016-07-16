@@ -3,7 +3,7 @@
  * Gets all the sermons for this church
  *
  * @author     Carlos Rios
- * @package    SermonAudioAPI
+ * @package    CarlosRios\SermonAudioAPI
  * @subpackage Examples / All Sermons
  */
 
@@ -11,7 +11,7 @@
 include_once( '../SermonAudioAPI.php' );
 
 // Connect to the api
-$sa_api = new SermonAudioAPI;
+$sa_api = new CarlosRios\SermonAudioAPI;
 $sa_api->setApiKey( 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX' );
 
 // Get the total number of sermons and create sermons array
