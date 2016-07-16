@@ -22,7 +22,7 @@ include_once( '../SermonAudioAPI.php' );
  */
 function sermonaudio_sermons_as_json()
 {
-	// Connect to the api
+	// Connect to the api. You must provide your own API Key from SermonAudio
 	$sa_api = new CarlosRios\SermonAudioAPI;
 	$sa_api->setApiKey( 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX' );
 
@@ -33,9 +33,7 @@ function sermonaudio_sermons_as_json()
 	// If there are more than 100 sermons we will need to
 	// make multiple requests because currently 100 is the most
 	// sermons allowed per request by SermonAudio.com
-	if( $total_sermons > 100 ){
-
-		// Divide the total by 100
+	if( $total_sermons > 100 ) {
 		$total_pages = ( $total_sermons / 100 );
 
 		// Get the data for all the sermons, requires multiple requests
@@ -48,27 +46,23 @@ function sermonaudio_sermons_as_json()
 			);
 			$sermons[] = $sa_api->getSermons( $args );
 		}
-
 	} else {
-
 		// Get the sermons, will only grab up to 100
 		$args = array(
 			'sermons_per_page'	=> 100,
 		);
 		$sermons[] = $sa_api->getSermons( $args );
-
 	}
 
-	// Merge the sermons into one array and return them as json.
-	if( !empty( $sermons ) ) {
-
+	// Continue only if the sermons returned an array. Otherwise return false.
+	if( ! $sermons && !empty( $sermons ) ) {
 		$all_sermons = array();
-
 		foreach( (array) $sermons as $sermon_set ) {
 			$all_sermons = array_merge( array_reverse( $sermon_set ), $all_sermons );
 		}
-
 		echo json_encode( $all_sermons );
+	} else {
+		return false;
 	}
 
 	// Exit the script
