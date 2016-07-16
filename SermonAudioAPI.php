@@ -145,6 +145,11 @@ class SermonAudioAPI {
 		$this->sermonsApiRoute( $args );
 		$data = $this->requestData();
 
+		// Return false if no sermons are returned
+		if( ! $data ) {
+			return false;
+		}
+
 		// Split the data into chunks
 		if( isset( $args['chunks'] ) && !empty( $data ) && is_array( $data ) ) {
 			$data = array_chunk( $data, abs( $args['chunks'] ) );
