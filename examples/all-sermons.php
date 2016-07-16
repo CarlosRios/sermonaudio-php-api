@@ -15,6 +15,8 @@ include_once( '../SermonAudioAPI.php' );
  * Gets the sermons from SermonAudio
  * and displays them as JSON.
  *
+ * @todo   Add count parameter to grab a specific amount of sermons
+ * 
  * @since  1.1
  * @return void
  */
@@ -30,7 +32,7 @@ function sermonaudio_sermons_as_json()
 
 	// If there are more than 100 sermons we will need to
 	// make multiple requests because currently 100 is the most
-	// sermons allowed per request by Sermon Audio
+	// sermons allowed per request by SermonAudio.com
 	if( $total_sermons > 100 ){
 
 		// Divide the total by 100
